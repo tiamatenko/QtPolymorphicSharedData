@@ -134,13 +134,6 @@ public:
 
 };
 
-//class AxonometricObjectData
-//{
-//    QT_POLYMORPHIC_ABSTRACT_DATA(AxonometricObject)
-//public:
-//    virtual double volume() const = 0;
-//};
-
 class ParallelepipedData : public RectangleData
 {
     QT_POLYMORPHIC_DATA_IFACE1(Parallelepiped, AxonometricObject)

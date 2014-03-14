@@ -1,0 +1,8 @@
+Makefile*
+*.user
+*.o
+moc_*
+examples/ExplicitlySharedData/ExplicitlySharedData
+examples/ImplicitlySharedData/ImplicitlySharedData
+tests/QtPolymorphicExplicitSharedType/tst_QtPolymorphicExplicitSharedType
+tests/QtPolymorphicImplicitSharedType/tst_QtPolymorphicImplicitSharedType
