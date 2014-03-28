@@ -27,8 +27,6 @@
 #include <QtCore/QCoreApplication>
 #include <QDebug>
 
-#include <math.h>
-
 #include "Shape.h"
 
 int main(int argc, char *argv[])

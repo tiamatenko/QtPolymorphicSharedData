@@ -27,6 +27,7 @@
 
 TARGET = tst_QtPolymorphicExplicitSharedType
 
+CONFIG *= qt
 QT       += testlib
 CONFIG   -= app_bundle
 
@@ -38,7 +39,6 @@ DEFINES += USE_EXPLICIT_SHARED_DATA
 SOURCES += tst_QtPolymorphicExplicitSharedType.cpp \
            ../../shared/Shape.cpp
 
-HEADERS += tst_QtPolymorphicExplicitSharedType.h \
-           ../../shared/global.h \
+HEADERS += ../../shared/global.h \
            ../../shared/Shape.h \
            ../../include/QtPolymorphicSharedData.h

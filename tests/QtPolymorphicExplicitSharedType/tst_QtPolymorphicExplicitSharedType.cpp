@@ -24,13 +24,23 @@
 **
 ****************************************************************************/
 
-#include "tst_QtPolymorphicExplicitSharedType.h"
-
-#include <QtTest/QtTest>
-
-//#include <math.h>
+#include <QtTest>
 
 #include "Shape.h"
+
+#include <QObject>
+
+class tst_QtPolymorphicExplicitSharedType : public QObject
+{
+    Q_OBJECT
+public:
+    tst_QtPolymorphicExplicitSharedType() {}
+private slots:
+    void initTestCase();
+    void myFirstTest();
+    void mySecondTest();
+    void cleanupTestCase();
+};
 
 
 void tst_QtPolymorphicExplicitSharedType::initTestCase()
@@ -55,4 +65,4 @@ void tst_QtPolymorphicExplicitSharedType::cleanupTestCase()
 
 
 QTEST_MAIN(tst_QtPolymorphicExplicitSharedType)
-//#include "tst_QtPolymorphicExplicitSharedType.moc"
+#include "tst_QtPolymorphicExplicitSharedType.moc"

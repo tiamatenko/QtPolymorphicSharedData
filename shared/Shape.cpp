@@ -28,8 +28,6 @@
 
 #include <iostream>
 
-#include <math.h>
-
 ////// Shared Data //////
 
 class ShapeData : public QtPolymorphicSharedData

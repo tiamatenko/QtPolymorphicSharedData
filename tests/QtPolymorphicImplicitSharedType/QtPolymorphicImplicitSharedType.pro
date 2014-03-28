@@ -25,20 +25,19 @@
 ##
 #############################################################################
 
-CONFIG  += testcase
-CONFIG  -= app_bundle
-
 TARGET = tst_QtPolymorphicImplicitSharedType
 
-QT     = testlib
+CONFIG  *= qt
+CONFIG  -= app_bundle
+
+QT     += testlib
 
 INCLUDEPATH += ../../shared \
                ../../include
 
-SOURCES = tst_QtPolymorphicImplicitSharedType.cpp
-          #../../shared/Shape.cpp
+SOURCES = tst_QtPolymorphicImplicitSharedType.cpp \
+          ../../shared/Shape.cpp
 
-HEADERS = tst_QtPolymorphicImplicitSharedType.h \
-          ../../shared/global.h \
+HEADERS = ../../shared/global.h \
           ../../shared/Shape.h \
           ../../include/QtPolymorphicSharedData.h

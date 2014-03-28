@@ -24,32 +24,44 @@
 **
 ****************************************************************************/
 
-#include "tst_QtPolymorphicImplicitSharedType.h"
-
 #include <QtTest/QtTest>
-
-//#include <math.h>
 
 #include "Shape.h"
 
-void tst_QtPolymorphicImlicitSharedType::initTestCase()
+#include <QObject>
+
+class tst_QtPolymorphicImplicitSharedType : public QObject
+{
+    Q_OBJECT
+public:
+    tst_QtPolymorphicImplicitSharedType() {}
+
+private slots:
+    void initTestCase();
+    void myFirstTest();
+    void mySecondTest();
+    void cleanupTestCase();
+};
+
+void tst_QtPolymorphicImplicitSharedType::initTestCase()
 {
     qDebug("called before everything else");
 }
 
-void tst_QtPolymorphicImlicitSharedType::myFirstTest()
+void tst_QtPolymorphicImplicitSharedType::myFirstTest()
 {
     QVERIFY(1 == 1);
 }
 
-void tst_QtPolymorphicImlicitSharedType::mySecondTest()
+void tst_QtPolymorphicImplicitSharedType::mySecondTest()
 {
     QVERIFY(1 != 2);
 }
 
-void tst_QtPolymorphicImlicitSharedType::cleanupTestCase()
+void tst_QtPolymorphicImplicitSharedType::cleanupTestCase()
 {
     qDebug("called after myFirstTest and mySecondTest");
 }
 
-QTEST_MAIN(tst_QtPolymorphicImlicitSharedType)
+QTEST_MAIN(tst_QtPolymorphicImplicitSharedType)
+#include "tst_QtPolymorphicImplicitSharedType.moc"

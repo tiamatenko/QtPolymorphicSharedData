@@ -29,6 +29,8 @@
 
 #include "global.h"
 
+#include <qmath.h>
+
 class Shape : public QtBasePolymorphicSharedType
 {
     QT_POLYMORPHIC_TYPE(Shape, ShapeData)
