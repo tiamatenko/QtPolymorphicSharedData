@@ -8,3 +8,4 @@ examples/ImplicitlySharedData/ImplicitlySharedData
 tests/QtPolymorphicExplicitSharedType/tst_QtPolymorphicExplicitSharedType
 tests/QtPolymorphicImplicitSharedType/tst_QtPolymorphicImplicitSharedType
 debug/
+release/
