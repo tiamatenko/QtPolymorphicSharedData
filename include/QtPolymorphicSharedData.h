@@ -329,14 +329,8 @@ public:
      *
      */
     template <typename X>
-    inline const X &castTo() const
-    { return reinterpret_cast<const X &>(*this); }
-    /**
-     *
-     */
-    template <typename X>
-    inline X &castTo()
-    { return reinterpret_cast<X &>(*this); }
+    inline X castTo() const
+    { return static_cast<const X &>(*this); }
     /**
      * @brief operator QVariant
      */

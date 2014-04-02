@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
             shape.printInfo();
             qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
-                const AxonometricObject &aobj = shape.castTo<AxonometricObject>();
+                const AxonometricObject &aobj = shape.castTo<Parallelepiped>();
                 qDebug() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
                 qDebug() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
             }
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
             shape.printInfo();
             qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
-                const AxonometricObject &aobj = shape.castTo<AxonometricObject>();
+                const AxonometricObject &aobj = shape.castTo<Parallelepiped>();
                 qDebug() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
                 qDebug() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
             }
