@@ -27,7 +27,7 @@
 
 TARGET = tst_QtPolymorphicImplicitSharedType
 
-CONFIG  *= qt
+CONFIG  *= qt depend_includepath
 CONFIG  -= app_bundle
 
 QT     += testlib

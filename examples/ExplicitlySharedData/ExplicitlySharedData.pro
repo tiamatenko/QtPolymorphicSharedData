@@ -32,7 +32,7 @@ TEMPLATE = app
 QT       += core
 #QT       -= gui
 
-CONFIG   += console c++11
+CONFIG   += console c++11 depend_includepath
 CONFIG   -= app_bundle
 
 #QMAKE_CXXFLAGS += -std=c++0x
