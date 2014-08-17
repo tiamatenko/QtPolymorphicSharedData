@@ -31,6 +31,12 @@ CONFIG *= qt depend_includepath
 QT       += testlib
 CONFIG   -= app_bundle
 
+lessThan(5, $$QT_MAJOR_VERSION) {
+    gcc:QMAKE_CXXFLAGS += -std=c++11
+} else {
+    CONFIG += c++11
+}
+
 INCLUDEPATH += ../../shared \
                ../../include
 

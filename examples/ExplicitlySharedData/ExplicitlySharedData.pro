@@ -30,12 +30,16 @@ TARGET = ExplicitlySharedData
 TEMPLATE = app
 
 QT       += core
-#QT       -= gui
+QT       -= gui
 
-CONFIG   += console c++11 depend_includepath
+CONFIG   += console depend_includepath
 CONFIG   -= app_bundle
 
-#QMAKE_CXXFLAGS += -std=c++0x
+lessThan(5, $$QT_MAJOR_VERSION) {
+    gcc:QMAKE_CXXFLAGS += -std=c++11
+} else {
+    CONFIG += c++11
+}
 
 INCLUDEPATH += ../../shared \
                ../../include
