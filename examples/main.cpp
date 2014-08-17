@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
             shape.printInfo();
             qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
-                const AxonometricObject &aobj = shape.castTo<Parallelepiped>();
+                const AxonometricObject &aobj = shape.castTo<Parallelepiped>(); // there is no way to cast like shape.castTo<AxonometricObject>()
                 qDebug() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
                 qDebug() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
             }
@@ -230,19 +230,19 @@ int main(int argc, char *argv[])
             qDebug() << "Shape is null";
 
         if (shape.is<Ellipse>()) {
-            const Ellipse &ellipse = shape.castTo<Ellipse>();
+            Ellipse ellipse = shape.castTo<Ellipse>();
             qDebug() << "Ellipse's area is:" << ellipse.area();
         } else if (shape.is<Triangle>()) {
-            const Triangle &triangle = shape.castTo<Triangle>();
+            Triangle triangle = shape.castTo<Triangle>();
             qDebug() << "Triangle's area is:" << triangle.area();
         } else if (shape.is<Rectangle>()) {
-            const Rectangle &rect = shape.castTo<Rectangle>();
+            Rectangle rect = shape.castTo<Rectangle>();
             qDebug() << "Rectangle's area is:" << rect.area();
         } else if (shape.is<Parallelogram>()) {
-            const Parallelogram &pr = shape.castTo<Parallelogram>();
+            Parallelogram pr = shape.castTo<Parallelogram>();
             qDebug() << "Parallelogram's area is:" << pr.area();
         } else if (shape.is<Parallelepiped>()) {
-            const Parallelepiped &prl = shape.castTo<Parallelepiped>();
+            Parallelepiped prl = shape.castTo<Parallelepiped>();
             qDebug() << "Parallelogram's area is:" << prl.area() << "volume:" << prl.volume() << "foo:" << prl.foo();
         }
     }
