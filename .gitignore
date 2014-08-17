@@ -2,6 +2,7 @@ Makefile*
 *.user
 *.o
 moc_*
+*.moc
 *.pdb
 examples/ExplicitlySharedData/ExplicitlySharedData
 examples/ImplicitlySharedData/ImplicitlySharedData

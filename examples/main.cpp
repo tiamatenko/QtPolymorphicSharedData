@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
     prl4.setThickness(200.0);
     prl5.setThickness(300.0);
 
-    prl3.setFoo("Foo1");
+    prl3.setFoo("Foo");
     prl4.setFoo(12345);
     prl5.setFoo(12.3344);
 
