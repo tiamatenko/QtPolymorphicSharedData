@@ -24,7 +24,7 @@
 **
 ****************************************************************************/
 
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 #include <QDebug>
 
 #include "Shape.h"

@@ -27,9 +27,9 @@
 #ifndef QT_POLYMORPHIC_SHARED_DATA_H
 #define QT_POLYMORPHIC_SHARED_DATA_H
 
-#include <QtCore/QSharedData>
-#include <QtCore/QVariant>
-#include <QtCore/QDebug>
+#include <QSharedData>
+#include <QVariant>
+#include <QDebug>
 
 struct QtPolymorphicSharedDataHelper
 {
