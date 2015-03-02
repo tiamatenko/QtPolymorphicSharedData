@@ -292,6 +292,10 @@ public:
      */
     inline const char *metaTypeName() const { return d->metaTypeName(); }
     /**
+     * @brief operator bool
+     */
+    inline operator bool() const { return d.constData(); }
+    /**
      * @brief isValid
      * @return
      */

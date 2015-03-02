@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
         if (shape.canCastTo<Parallelepiped>())
             qDebug() << "Shape can be converted to Parallelepiped";
 
-        if (shape.isValid()) {
+        if (shape) {
             shape.printInfo();
             qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
         if (shape.canCastTo<Parallelepiped>())
             qDebug() << "Shape can be converted to Parallelepiped";
 
-        if (shape.isValid()) {
+        if (shape) {
             shape.printInfo();
             qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
