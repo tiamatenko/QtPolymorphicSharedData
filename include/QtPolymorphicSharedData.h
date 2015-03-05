@@ -306,11 +306,6 @@ public:
      */
     inline bool isNull() const { return !d; }
     /**
-     * @brief operator !
-     * @return
-     */
-    inline bool operator!() const { return !d; }
-    /**
      *
      */
     template <typename X>
