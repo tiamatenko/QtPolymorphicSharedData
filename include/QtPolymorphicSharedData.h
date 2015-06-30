@@ -27,10 +27,9 @@
 #ifndef QT_POLYMORPHIC_SHARED_DATA_H
 #define QT_POLYMORPHIC_SHARED_DATA_H
 
-#include <QSharedData>
-#include <QVariant>
-#include <QDebug>
-
+#include <QtCore/QSharedData>
+#include <QtCore/QVariant>
+#include <QtCore/QDebug>
 
 struct QtPolymorphicSharedDataHelper
 {
@@ -56,22 +55,10 @@ struct QtPolymorphicSharedDataHelper
     {
         typedef typename TypeAt<Tail, index-1>::Result Result;
     };
+
+    template <class IFace>
+    struct InterfaceWrapper {};
 };
-
-template <typename T>
-struct QtPolymorphicSharedMetaType
-{
-    struct MetaTypeIdGenerator{};
-    static const MetaTypeIdGenerator metaTypeIdGenerator;
-
-    static inline quintptr typeId()
-    {
-        return quintptr(&metaTypeIdGenerator);
-    }
-};
-
-template <typename T>
-const typename QtPolymorphicSharedMetaType<T>::MetaTypeIdGenerator QtPolymorphicSharedMetaType<T>::metaTypeIdGenerator = QtPolymorphicSharedMetaType<T>::MetaTypeIdGenerator();
 
 /**
  * @brief The QtPolymorphicSharedData class is a base class for polymorphic shared data objects.
@@ -91,12 +78,12 @@ public:
      * @param metaTypeId - ID of requested type
      * @return result of possibility casting
      */
-    virtual bool canCastTo(quintptr metaTypeId) const { Q_UNUSED(metaTypeId) return false; }
+    virtual bool canCastTo(int metaTypeId) const { Q_UNUSED(metaTypeId) return false; }
     /**
      * @brief metaTypeId Returns type ID of data
      * @return type ID of data
      */
-    virtual quintptr metaTypeId() const = 0;
+    virtual int metaTypeId() const = 0;
     /**
      * @brief metaTypeName Returns the type name associated with the instance derived from QtPolymorphicSharedType (not QtPolymorphicSharedData).
      *        The returned pointer must not be deleted.
@@ -116,79 +103,79 @@ protected:
 
 /**
  */
-#define QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-protected:                                                                                      \
-    typedef QtPolymorphicSharedDataHelper::TypeList<TYPE::TData, Types> Types;                  \
-    virtual quintptr metaTypeId() const { return QtPolymorphicSharedMetaType<TYPE>::typeId(); } \
-    virtual const char * metaTypeName() const { return #TYPE; }
+#define QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                \
+protected:                                                                              \
+    typedef QtPolymorphicSharedDataHelper::TypeList<TYPE::TData, Types> Types;          \
+    virtual int metaTypeId() const { return qMetaTypeId<TYPE>(); }                      \
+    virtual const char* metaTypeName() const { return QMetaType::typeName(qMetaTypeId<TYPE>()); }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA(TYPE)                                                  \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA(TYPE)                                              \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                                \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               QtPolymorphicSharedMetaType<INTERFACE>::typeId() == metaTypeId ||            \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                            \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               qMetaTypeId<INTERFACE>() == metaTypeId ||                                \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                           \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               QtPolymorphicSharedMetaType<IFACE1>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE2>::typeId() == metaTypeId ||               \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                       \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               qMetaTypeId<IFACE1>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE2>() == metaTypeId ||                                   \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                   \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               QtPolymorphicSharedMetaType<IFACE1>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE2>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE3>::typeId() == metaTypeId ||               \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)               \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               qMetaTypeId<IFACE1>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE2>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE3>() == metaTypeId ||                                   \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)           \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               QtPolymorphicSharedMetaType<IFACE1>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE2>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE3>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE4>::typeId() == metaTypeId ||               \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)       \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               qMetaTypeId<IFACE1>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE2>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE3>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE4>() == metaTypeId ||                                   \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
-#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)   \
-    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                        \
-    virtual bool canCastTo(quintptr metaTypeId) const                                       \
-    {                                                                                       \
-        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;       \
-        return QtPolymorphicSharedMetaType<TYPE>::typeId() == metaTypeId ||                 \
-               QtPolymorphicSharedMetaType<IFACE1>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE2>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE3>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE4>::typeId() == metaTypeId ||               \
-               QtPolymorphicSharedMetaType<IFACE5>::typeId() == metaTypeId ||               \
-               AncestorType::canCastTo(metaTypeId);                                         \
+#define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5) \
+    QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
+    virtual bool canCastTo(int metaTypeId) const                                        \
+    {                                                                                   \
+        typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
+        return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
+               qMetaTypeId<IFACE1>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE2>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE3>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE4>() == metaTypeId ||                                   \
+               qMetaTypeId<IFACE5>() == metaTypeId ||                                   \
+               AncestorType::canCastTo(metaTypeId);                                     \
     }
 
 /**
@@ -197,24 +184,24 @@ protected:                                                                      
     QT_POLYMORPHIC_ABSTRACT_DATA(TYPE)  \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
-#define QT_POLYMORPHIC_DATA_IFACE1(TYPE, INTERFACE)                                         \
-    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                                    \
+#define QT_POLYMORPHIC_DATA_IFACE1(TYPE, INTERFACE)                                   \
+    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                              \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
-#define QT_POLYMORPHIC_DATA_IFACE2(TYPE, IFACE1, IFACE2)                                    \
-    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                               \
+#define QT_POLYMORPHIC_DATA_IFACE2(TYPE, IFACE1, IFACE2)                              \
+    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                         \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
-#define QT_POLYMORPHIC_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                            \
-    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                       \
+#define QT_POLYMORPHIC_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                      \
+    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                 \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
-#define QT_POLYMORPHIC_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)                    \
-    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)               \
+#define QT_POLYMORPHIC_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)              \
+    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)         \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
-#define QT_POLYMORPHIC_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)            \
-    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)       \
+#define QT_POLYMORPHIC_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)      \
+    QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5) \
     virtual QtPolymorphicSharedData *clone() const { return new TYPE::TData(*this); }
 
 /**
@@ -243,7 +230,7 @@ class QtPolymorphicSharedType
 {
 public:
     /**
-     * @brief QtPolymorphicSharedType
+     * @brief ctor
      */
     inline QtPolymorphicSharedType() {}
     /**
@@ -251,6 +238,11 @@ public:
      * @param other
      */
     inline QtPolymorphicSharedType(const QtPolymorphicSharedType &other) : d(other.d) {}
+
+    /**
+     * @brief dtor
+     */
+    virtual ~QtPolymorphicSharedType() {}
     /**
      * @brief operator =
      * @param rhs
@@ -285,16 +277,12 @@ public:
      * @brief metaTypeId
      * @return
      */
-    inline quintptr metaTypeId() const { return d->metaTypeId(); }
+    inline int metaTypeId() const { return d->metaTypeId(); }
     /**
      * @brief metaTypeName
      * @return
      */
     inline const char *metaTypeName() const { return d->metaTypeName(); }
-    /**
-     * @brief operator bool
-     */
-    inline operator bool() const { return d.constData(); }
     /**
      * @brief isValid
      * @return
@@ -306,17 +294,27 @@ public:
      */
     inline bool isNull() const { return !d; }
     /**
+     * @brief operator !
+     * @return
+     */
+    inline bool operator!() const { return !d; }
+    /**
+     * @brief operator bool
+     * @return
+     */
+    inline operator bool() const { return d.constData(); }
+    /**
      *
      */
     template <typename X>
     inline bool is() const
-    { return isValid() && metaTypeId() == QtPolymorphicSharedMetaType<X>::typeId(); }
+    { return isValid() && metaTypeId() == qMetaTypeId<X>(); }
     /**
      *
      */
     template <typename X>
     inline bool canCastTo() const
-    { return isValid() && d->canCastTo(QtPolymorphicSharedMetaType<X>::typeId()); }
+    { return isValid() && d->canCastTo(qMetaTypeId<X>()); }
     /**
      *
      */
@@ -428,11 +426,21 @@ public:                                         \
  */
 #define QT_DECLARE_POLYMORPHIC_SHARED(TYPE) \
 Q_DECLARE_TYPEINFO(TYPE, Q_MOVABLE_TYPE); \
+Q_DECLARE_METATYPE(TYPE) \
 template <> inline void qSwap<TYPE>(TYPE &value1, TYPE &value2) \
 { value1.swap(value2); } \
 namespace std { \
     template<> inline void swap<TYPE>(TYPE &value1, TYPE &value2) \
     { value1.swap(value2); } \
+}
+
+#define QT_DECLARE_POLYMORPHIC_SHARED_INTERFACE(INTERFACE) \
+Q_DECLARE_TYPEINFO(INTERFACE, Q_MOVABLE_TYPE); \
+Q_DECLARE_METATYPE(QtPolymorphicSharedDataHelper::InterfaceWrapper<INTERFACE>) \
+template <> \
+inline Q_DECL_CONSTEXPR int qMetaTypeId<INTERFACE>() \
+{ \
+    return qMetaTypeId<QtPolymorphicSharedDataHelper::InterfaceWrapper<INTERFACE>>(); \
 }
 
 /**
@@ -446,8 +454,5 @@ typedef QtPolymorphicSharedType<QExplicitlySharedDataPointer> QtPolymorphicExpli
 
 QT_DECLARE_POLYMORPHIC_SHARED(QtPolymorphicImplicitSharedType)
 QT_DECLARE_POLYMORPHIC_SHARED(QtPolymorphicExplicitSharedType)
-
-Q_DECLARE_METATYPE(QtPolymorphicImplicitSharedType)
-Q_DECLARE_METATYPE(QtPolymorphicExplicitSharedType)
 
 #endif // QT_POLYMORPHIC_SHARED_DATA_H
