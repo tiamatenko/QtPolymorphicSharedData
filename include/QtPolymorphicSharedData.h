@@ -322,6 +322,12 @@ public:
     inline X castTo() const
     { return static_cast<const X &>(*this); }
     /**
+     *
+     */
+    template <typename X>
+    inline X checkAndCastTo() const
+    { return canCastTo<X>() ? static_cast<const X &>(*this) : X(); }
+    /**
      * @brief operator QVariant
      */
     inline operator QVariant() const
