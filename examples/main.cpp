@@ -198,9 +198,9 @@ int main(int argc, char *argv[])
     vars << prl1 << prl2 << prl3 << prl4 << prl5;
 
     foreach (const QVariant &var, vars) {
-        if (!var.canConvert<QtBasePolymorphicSharedType>())
+        if (!var.canConvert<Shape>())
             continue;
-        const Shape &shape = var.value<QtBasePolymorphicSharedType>().castTo<Shape>();
+        const Shape &shape = var.value<Shape>();
         if (shape.canCastTo<Ellipse>())
             qDebug() << "Shape can be converted to Ellipse";
         if (shape.canCastTo<Triangle>())

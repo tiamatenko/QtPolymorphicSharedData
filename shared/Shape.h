@@ -54,6 +54,8 @@ public:
     bool operator<=(const Shape &shape) const;
     bool operator>(const Shape &shape) const;
     bool operator>=(const Shape &shape) const;
+    inline operator QVariant() const
+    { return QVariant::fromValue(*this); }
 };
 
 class Ellipse : public Shape

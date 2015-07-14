@@ -328,11 +328,6 @@ public:
     inline X checkAndCastTo() const
     { return canCastTo<X>() ? static_cast<const X &>(*this) : X(); }
     /**
-     * @brief operator QVariant
-     */
-    inline operator QVariant() const
-    { return QVariant::fromValue(*this); }
-    /**
      * @brief swap
      * @param other
      */
