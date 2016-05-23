@@ -27,4 +27,5 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS = examples #stests
+SUBDIRS = examples \
+          tests

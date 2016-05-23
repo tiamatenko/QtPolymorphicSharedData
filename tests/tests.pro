@@ -27,4 +27,5 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS = QtPolymorphicExplicitSharedType QtPolymorphicImplicitSharedType
+SUBDIRS = QtPolymorphicExplicitSharedType \
+          QtPolymorphicImplicitSharedType
