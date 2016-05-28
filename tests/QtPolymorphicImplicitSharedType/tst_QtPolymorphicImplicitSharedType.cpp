@@ -71,6 +71,7 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
             QVERIFY(shape.is<Ellipse>());
             QVERIFY(shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
+            QVERIFY(!shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Rectangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
             QVERIFY(!shape.canCastTo<Parallelepiped>());
@@ -92,6 +93,7 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
             QVERIFY(shape.is<Triangle>());
             QVERIFY(shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Ellipse>());
+            QVERIFY(!shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Rectangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
             QVERIFY(!shape.canCastTo<Parallelepiped>());
@@ -112,6 +114,7 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
         case 2: { // Rectangle
             QVERIFY(shape.is<Rectangle>());
             QVERIFY(shape.canCastTo<Rectangle>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
@@ -123,6 +126,12 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
             QVERIFY(rectangle);
             QVERIFY(!rectangle == false);
 
+            AbstractParallelogram abstract_parallelogram = shape.castTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
+
             rectangle = Rectangle();
             QVERIFY(!rectangle.isValid());
             QVERIFY(rectangle.isNull());
@@ -133,6 +142,7 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
         case 3: { // Parallelogram
             QVERIFY(shape.is<Parallelogram>());
             QVERIFY(shape.canCastTo<Parallelogram>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Rectangle>());
@@ -144,6 +154,12 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
             QVERIFY(parallelogram);
             QVERIFY(!parallelogram == false);
 
+            AbstractParallelogram abstract_parallelogram = shape.castTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
+
             parallelogram = Parallelogram();
             QVERIFY(!parallelogram.isValid());
             QVERIFY(parallelogram.isNull());
@@ -154,9 +170,10 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
         case 4: { // Parallelepiped
             QVERIFY(shape.is<Parallelepiped>());
             QVERIFY(shape.canCastTo<Parallelepiped>());
+            QVERIFY(shape.canCastTo<Rectangle>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
-            QVERIFY(shape.canCastTo<Rectangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
 
             Parallelepiped parallelepiped = shape.castTo<Parallelepiped>();
@@ -164,6 +181,12 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
             QVERIFY(!parallelepiped.isNull());
             QVERIFY(parallelepiped);
             QVERIFY(!parallelepiped == false);
+
+            AbstractParallelogram abstract_parallelogram = shape.castTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
 
             parallelepiped = Parallelepiped();
             QVERIFY(!parallelepiped.isValid());
@@ -181,6 +204,7 @@ void tst_QtPolymorphicImplicitSharedType::castTest()
         QVERIFY(shape.isNull());
         QVERIFY(!shape.canCastTo<Ellipse>());
         QVERIFY(!shape.canCastTo<Triangle>());
+        QVERIFY(!shape.canCastTo<AbstractParallelogram>());
         QVERIFY(!shape.canCastTo<Rectangle>());
         QVERIFY(!shape.canCastTo<Parallelogram>());
         QVERIFY(!shape.canCastTo<Parallelepiped>());
@@ -207,6 +231,12 @@ void tst_QtPolymorphicImplicitSharedType::checkAndCastTest()
             QVERIFY(bool(triangle) == false);
             QVERIFY(!triangle);
 
+            AbstractParallelogram abstract_parallelogram = shape.checkAndCastTo<AbstractParallelogram>();
+            QVERIFY(!abstract_parallelogram.isValid());
+            QVERIFY(abstract_parallelogram.isNull());
+            QVERIFY(bool(abstract_parallelogram) == false);
+            QVERIFY(!abstract_parallelogram);
+
             Rectangle rectangle = shape.checkAndCastTo<Rectangle>();
             QVERIFY(!rectangle.isValid());
             QVERIFY(rectangle.isNull());
@@ -238,6 +268,12 @@ void tst_QtPolymorphicImplicitSharedType::checkAndCastTest()
             QVERIFY(ellipse.isNull());
             QVERIFY(bool(ellipse) == false);
             QVERIFY(!ellipse);
+
+            AbstractParallelogram abstract_parallelogram = shape.checkAndCastTo<AbstractParallelogram>();
+            QVERIFY(!abstract_parallelogram.isValid());
+            QVERIFY(abstract_parallelogram.isNull());
+            QVERIFY(bool(abstract_parallelogram) == false);
+            QVERIFY(!abstract_parallelogram);
 
             Rectangle rectangle = shape.checkAndCastTo<Rectangle>();
             QVERIFY(!rectangle.isValid());
@@ -277,6 +313,12 @@ void tst_QtPolymorphicImplicitSharedType::checkAndCastTest()
             QVERIFY(bool(triangle) == false);
             QVERIFY(!triangle);
 
+            AbstractParallelogram abstract_parallelogram = shape.checkAndCastTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
+
             Parallelogram parallelogram = shape.checkAndCastTo<Parallelogram>();
             QVERIFY(!parallelogram.isValid());
             QVERIFY(parallelogram.isNull());
@@ -309,6 +351,12 @@ void tst_QtPolymorphicImplicitSharedType::checkAndCastTest()
             QVERIFY(bool(triangle) == false);
             QVERIFY(!triangle);
 
+            AbstractParallelogram abstract_parallelogram = shape.checkAndCastTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
+
             Rectangle rectangle = shape.checkAndCastTo<Rectangle>();
             QVERIFY(!rectangle.isValid());
             QVERIFY(rectangle.isNull());
@@ -340,6 +388,12 @@ void tst_QtPolymorphicImplicitSharedType::checkAndCastTest()
             QVERIFY(triangle.isNull());
             QVERIFY(bool(triangle) == false);
             QVERIFY(!triangle);
+
+            AbstractParallelogram abstract_parallelogram = shape.checkAndCastTo<AbstractParallelogram>();
+            QVERIFY(abstract_parallelogram.isValid());
+            QVERIFY(!abstract_parallelogram.isNull());
+            QVERIFY(abstract_parallelogram);
+            QVERIFY(!abstract_parallelogram == false);
 
             Rectangle rectangle = shape.checkAndCastTo<Rectangle>();
             QVERIFY(rectangle.isValid());
@@ -369,6 +423,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
         QVERIFY(var.canConvert<Shape>());
         QVERIFY(!var.canConvert<Ellipse>());
         QVERIFY(!var.canConvert<Triangle>());
+        QVERIFY(!var.canConvert<AbstractParallelogram>());
         QVERIFY(!var.canConvert<Rectangle>());
         QVERIFY(!var.canConvert<Parallelogram>());
         QVERIFY(!var.canConvert<Parallelepiped>());
@@ -384,6 +439,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(shape.is<Ellipse>());
             QVERIFY(shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
+            QVERIFY(!shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Rectangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
             QVERIFY(!shape.canCastTo<Parallelepiped>());
@@ -393,6 +449,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(var.canConvert<Ellipse>());
             QVERIFY(!var.canConvert<Shape>());
             QVERIFY(!var.canConvert<Triangle>());
+            QVERIFY(!var.canConvert<AbstractParallelogram>());
             QVERIFY(!var.canConvert<Rectangle>());
             QVERIFY(!var.canConvert<Parallelogram>());
             QVERIFY(!var.canConvert<Parallelepiped>());
@@ -405,6 +462,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(ellipse.is<Ellipse>());
             QVERIFY(ellipse.canCastTo<Ellipse>());
             QVERIFY(!ellipse.canCastTo<Triangle>());
+            QVERIFY(!ellipse.canCastTo<AbstractParallelogram>());
             QVERIFY(!ellipse.canCastTo<Rectangle>());
             QVERIFY(!ellipse.canCastTo<Parallelogram>());
             QVERIFY(!ellipse.canCastTo<Parallelepiped>());
@@ -414,6 +472,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(shape.is<Triangle>());
             QVERIFY(shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Ellipse>());
+            QVERIFY(!shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Rectangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
             QVERIFY(!shape.canCastTo<Parallelepiped>());
@@ -423,6 +482,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(var.canConvert<Triangle>());
             QVERIFY(!var.canConvert<Shape>());
             QVERIFY(!var.canConvert<Ellipse>());
+            QVERIFY(!var.canConvert<AbstractParallelogram>());
             QVERIFY(!var.canConvert<Rectangle>());
             QVERIFY(!var.canConvert<Parallelogram>());
             QVERIFY(!var.canConvert<Parallelepiped>());
@@ -435,6 +495,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(triangle.is<Triangle>());
             QVERIFY(triangle.canCastTo<Triangle>());
             QVERIFY(!triangle.canCastTo<Ellipse>());
+            QVERIFY(!triangle.canCastTo<AbstractParallelogram>());
             QVERIFY(!triangle.canCastTo<Rectangle>());
             QVERIFY(!triangle.canCastTo<Parallelogram>());
             QVERIFY(!triangle.canCastTo<Parallelepiped>());
@@ -443,6 +504,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
         case 2: { // Rectangle
             QVERIFY(shape.is<Rectangle>());
             QVERIFY(shape.canCastTo<Rectangle>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
@@ -454,6 +516,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(!var.canConvert<Shape>());
             QVERIFY(!var.canConvert<Ellipse>());
             QVERIFY(!var.canConvert<Triangle>());
+            QVERIFY(!var.canConvert<AbstractParallelogram>());
             QVERIFY(!var.canConvert<Parallelogram>());
             QVERIFY(!var.canConvert<Parallelepiped>());
 
@@ -464,6 +527,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(!rectangle == false);
             QVERIFY(rectangle.is<Rectangle>());
             QVERIFY(rectangle.canCastTo<Rectangle>());
+            QVERIFY(rectangle.canCastTo<AbstractParallelogram>());
             QVERIFY(!rectangle.canCastTo<Ellipse>());
             QVERIFY(!rectangle.canCastTo<Triangle>());
             QVERIFY(!rectangle.canCastTo<Parallelogram>());
@@ -473,6 +537,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
         case 3: { // Parallelogram
             QVERIFY(shape.is<Parallelogram>());
             QVERIFY(shape.canCastTo<Parallelogram>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Rectangle>());
@@ -484,6 +549,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(!var.canConvert<Shape>());
             QVERIFY(!var.canConvert<Ellipse>());
             QVERIFY(!var.canConvert<Triangle>());
+            QVERIFY(!var.canConvert<AbstractParallelogram>());
             QVERIFY(!var.canConvert<Rectangle>());
             QVERIFY(!var.canConvert<Parallelepiped>());
 
@@ -494,6 +560,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(!parallelogram == false);
             QVERIFY(parallelogram.is<Parallelogram>());
             QVERIFY(parallelogram.canCastTo<Parallelogram>());
+            QVERIFY(parallelogram.canCastTo<AbstractParallelogram>());
             QVERIFY(!parallelogram.canCastTo<Ellipse>());
             QVERIFY(!parallelogram.canCastTo<Triangle>());
             QVERIFY(!parallelogram.canCastTo<Rectangle>());
@@ -504,6 +571,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(shape.is<Parallelepiped>());
             QVERIFY(shape.canCastTo<Parallelepiped>());
             QVERIFY(shape.canCastTo<Rectangle>());
+            QVERIFY(shape.canCastTo<AbstractParallelogram>());
             QVERIFY(!shape.canCastTo<Ellipse>());
             QVERIFY(!shape.canCastTo<Triangle>());
             QVERIFY(!shape.canCastTo<Parallelogram>());
@@ -514,6 +582,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(!var.canConvert<Shape>());
             QVERIFY(!var.canConvert<Ellipse>());
             QVERIFY(!var.canConvert<Triangle>());
+            QVERIFY(!var.canConvert<AbstractParallelogram>());
             QVERIFY(!var.canConvert<Rectangle>());
             QVERIFY(!var.canConvert<Parallelogram>());
 
@@ -525,6 +594,7 @@ void tst_QtPolymorphicImplicitSharedType::variantTest()
             QVERIFY(parallelepiped.is<Parallelepiped>());
             QVERIFY(parallelepiped.canCastTo<Parallelepiped>());
             QVERIFY(parallelepiped.canCastTo<Rectangle>());
+            QVERIFY(parallelepiped.canCastTo<AbstractParallelogram>());
             QVERIFY(!parallelepiped.canCastTo<Ellipse>());
             QVERIFY(!parallelepiped.canCastTo<Triangle>());
             QVERIFY(!parallelepiped.canCastTo<Parallelogram>());
