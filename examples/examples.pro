@@ -2,7 +2,7 @@
 ##
 ## examples.pro
 ##
-## Copyright (c) 2015-2016, Korobov Sergiy.
+## Copyright (c) 2015-2017, Korobov Sergiy.
 ## All rights reserved.
 ## Contact: Korobov Sergiy (tiamatenko@gmail.com)
 ##
