@@ -78,11 +78,11 @@ int main(int argc, char *argv[])
 
     rect5.detach();
 
-    qDebug() << "rect1 is" << (rect1 == rect2 ? "equal" : "not equal") << "rect2";
-    qDebug() << "rect2 is" << (rect2 == rect3 ? "equal" : "not equal") << "rect3";
-    qDebug() << "rect3 is" << (rect3 == rect4 ? "equal" : "not equal") << "rect4";
-    qDebug() << "rect4 is" << (rect4 == rect5 ? "equal" : "not equal") << "rect5";
-    qDebug() << "rect3 is" << (rect3 == rect5 ? "equal" : "not equal") << "rect5";
+    qInfo() << "rect1 is" << (rect1 == rect2 ? "equal" : "not equal") << "rect2";
+    qInfo() << "rect2 is" << (rect2 == rect3 ? "equal" : "not equal") << "rect3";
+    qInfo() << "rect3 is" << (rect3 == rect4 ? "equal" : "not equal") << "rect4";
+    qInfo() << "rect4 is" << (rect4 == rect5 ? "equal" : "not equal") << "rect5";
+    qInfo() << "rect3 is" << (rect3 == rect5 ? "equal" : "not equal") << "rect5";
 
     Parallelogram pr1;
     Parallelogram pr2(pr1);
@@ -102,8 +102,8 @@ int main(int argc, char *argv[])
     pr4.setX(300.0);
     pr4.setY(400.0);
 
-    qDebug() << "pr3 is" << (pr3 == pr4 ? "equal" : "not equal") << "pr4";
-    qDebug() << "rect3 is" << (rect3 != pr4 ? "not equal" : "equal") << "pr4";
+    qInfo() << "pr3 is" << (pr3 == pr4 ? "equal" : "not equal") << "pr4";
+    qInfo() << "rect3 is" << (rect3 != pr4 ? "not equal" : "equal") << "pr4";
 
     Parallelepiped prl1;
     Parallelepiped prl2(prl1);
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
     prl4.setFoo(12345);
     prl5.setFoo(12.3344);
 
-    qDebug("Test shape list");
+    qInfo("Test shape list");
 
     QList<Shape> shapes;
     shapes << ellipse1 << ellipse2 << ellipse3 << ellipse4 << ellipse5;
@@ -141,53 +141,57 @@ int main(int argc, char *argv[])
 
     qSort(shapes);
 
+    qInfo() << "Shape size is:" << sizeof(Shape) << sizeof(QVariant) << sizeof(QSharedPointer<Shape>) << sizeof(Shape*);
+    qInfo() << "QTypeInfo<Shape>::isLarge:" << (QTypeInfo<Shape>::isLarge);
+    qInfo() << "QTypeInfo<QVariant>::isLarge:" << (QTypeInfo<QVariant>::isLarge);
+
     foreach (const Shape &shape, shapes) {
         if (shape.canCastTo<Ellipse>())
-            qDebug() << "Shape can be converted to Ellipse";
+            qInfo() << "Shape can be converted to Ellipse";
         if (shape.canCastTo<Triangle>())
-            qDebug() << "Shape can be converted to Triangle";
+            qInfo() << "Shape can be converted to Triangle";
         if (shape.canCastTo<AbstractParallelogram>())
-            qDebug() << "Shape can be converted to AbstractParallelogram";
+            qInfo() << "Shape can be converted to AbstractParallelogram";
         if (shape.canCastTo<Rectangle>())
-            qDebug() << "Shape can be converted to Rectangle";
+            qInfo() << "Shape can be converted to Rectangle";
         if (shape.canCastTo<Parallelogram>())
-            qDebug() << "Shape can be converted to Parallelogram";
+            qInfo() << "Shape can be converted to Parallelogram";
         if (shape.canCastTo<AxonometricObject>())
-            qDebug() << "Shape can be converted to AxonometricObject";
+            qInfo() << "Shape can be converted to AxonometricObject";
         if (shape.canCastTo<Parallelepiped>())
-            qDebug() << "Shape can be converted to Parallelepiped";
+            qInfo() << "Shape can be converted to Parallelepiped";
 
         if (shape) {
             shape.printInfo();
-            qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
+            qInfo() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
                 const AxonometricObject &aobj = shape.castTo<Parallelepiped>();
-                qDebug() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
-                qDebug() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
+                qInfo() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
+                qInfo() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
             }
         }
 
         if (shape.is<Ellipse>()) {
             const Ellipse &ellipse = shape.castTo<Ellipse>();
-            qDebug() << "Ellipse's area is:" << ellipse.area();
+            qInfo() << "Ellipse's area is:" << ellipse.area();
         } else if (shape.is<Triangle>()) {
             const Triangle &triangle = shape.castTo<Triangle>();
-            qDebug() << "Triangle's area is:" << triangle.area();
+            qInfo() << "Triangle's area is:" << triangle.area();
         } else if (shape.is<Rectangle>()) {
             const Rectangle &rect = shape.castTo<Rectangle>();
-            qDebug() << "Rectangle's area is:" << rect.area();
+            qInfo() << "Rectangle's area is:" << rect.area();
         } else if (shape.is<Parallelogram>()) {
             const Parallelogram &pr = shape.castTo<Parallelogram>();
-            qDebug() << "Parallelogram's area is:" << pr.area();
+            qInfo() << "Parallelogram's area is:" << pr.area();
         } else if (shape.is<Parallelepiped>()) {
             const Parallelepiped &prl = shape.castTo<Parallelepiped>();
-            qDebug() << "Parallelepiped's area is:" << prl.area() << "volume:" << prl.volume() << "foo:" << prl.foo();
+            qInfo() << "Parallelepiped's area is:" << prl.area() << "volume:" << prl.volume() << "foo:" << prl.foo();
         } else if (!shape) {
-            qDebug() << "Shape is null";
+            qInfo() << "Shape is null";
         }
     }
 
-    qDebug("Test variant list");
+    qInfo("Test variant list");
 
     QVariantList vars;
 
@@ -202,48 +206,48 @@ int main(int argc, char *argv[])
             continue;
         const Shape &shape = var.value<Shape>();
         if (shape.canCastTo<Ellipse>())
-            qDebug() << "Shape can be converted to Ellipse";
+            qInfo() << "Shape can be converted to Ellipse";
         if (shape.canCastTo<Triangle>())
-            qDebug() << "Shape can be converted to Triangle";
+            qInfo() << "Shape can be converted to Triangle";
         if (shape.canCastTo<AbstractParallelogram>())
-            qDebug() << "Shape can be converted to AbstractParallelogram";
+            qInfo() << "Shape can be converted to AbstractParallelogram";
         if (shape.canCastTo<Rectangle>())
-            qDebug() << "Shape can be converted to Rectangle";
+            qInfo() << "Shape can be converted to Rectangle";
         if (shape.canCastTo<Parallelogram>())
-            qDebug() << "Shape can be converted to Parallelogram";
+            qInfo() << "Shape can be converted to Parallelogram";
         if (shape.canCastTo<AxonometricObject>())
-            qDebug() << "Shape can be converted to AxonometricObject";
+            qInfo() << "Shape can be converted to AxonometricObject";
         if (shape.canCastTo<Parallelepiped>())
-            qDebug() << "Shape can be converted to Parallelepiped";
+            qInfo() << "Shape can be converted to Parallelepiped";
 
         if (shape) {
             shape.printInfo();
-            qDebug() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
+            qInfo() << "Area of" << shape.metaTypeName() << "is:" << shape.area();
             if (shape.canCastTo<AxonometricObject>()) {
                 const AxonometricObject &aobj = shape.castTo<Parallelepiped>(); // there is no way to cast like shape.castTo<AxonometricObject>()
-                qDebug() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
-                qDebug() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
+                qInfo() << "Volume of" << shape.metaTypeName() << "is:" << aobj.volume();
+                qInfo() << "Foo of" << shape.metaTypeName() << "is:" << aobj.foo();
             }
         }
 
         if (!shape)
-            qDebug() << "Shape is null";
+            qInfo() << "Shape is null";
 
         if (shape.is<Ellipse>()) {
             Ellipse ellipse = shape.castTo<Ellipse>();
-            qDebug() << "Ellipse's area is:" << ellipse.area();
+            qInfo() << "Ellipse's area is:" << ellipse.area();
         } else if (shape.is<Triangle>()) {
             Triangle triangle = shape.castTo<Triangle>();
-            qDebug() << "Triangle's area is:" << triangle.area();
+            qInfo() << "Triangle's area is:" << triangle.area();
         } else if (shape.is<Rectangle>()) {
             Rectangle rect = shape.castTo<Rectangle>();
-            qDebug() << "Rectangle's area is:" << rect.area();
+            qInfo() << "Rectangle's area is:" << rect.area();
         } else if (shape.is<Parallelogram>()) {
             Parallelogram pr = shape.castTo<Parallelogram>();
-            qDebug() << "Parallelogram's area is:" << pr.area();
+            qInfo() << "Parallelogram's area is:" << pr.area();
         } else if (shape.is<Parallelepiped>()) {
             Parallelepiped prl = shape.castTo<Parallelepiped>();
-            qDebug() << "Parallelogram's area is:" << prl.area() << "volume:" << prl.volume() << "foo:" << prl.foo();
+            qInfo() << "Parallelogram's area is:" << prl.area() << "volume:" << prl.volume() << "foo:" << prl.foo();
         }
     }
 }

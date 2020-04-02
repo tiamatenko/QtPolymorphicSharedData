@@ -45,7 +45,7 @@ private slots:
 
 void tst_QtPolymorphicExplicitSharedType::initTestCase()
 {
-    qDebug("called before everything else");
+    qInfo("called before everything else");
 }
 
 void tst_QtPolymorphicExplicitSharedType::myFirstTest()
@@ -60,7 +60,7 @@ void tst_QtPolymorphicExplicitSharedType::mySecondTest()
 
 void tst_QtPolymorphicExplicitSharedType::cleanupTestCase()
 {
-    qDebug("called after myFirstTest and mySecondTest");
+    qInfo("called after myFirstTest and mySecondTest");
 }
 
 
