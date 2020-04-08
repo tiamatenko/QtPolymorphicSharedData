@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Shape.cpp
 **
-** Copyright (c) 2015-2017, Korobov Sergiy.
+** Copyright (c) 2015-2020, Korobov Sergiy.
 ** All rights reserved.
 ** Contact: Korobov Sergiy (tiamatenko@gmail.com)
 **
