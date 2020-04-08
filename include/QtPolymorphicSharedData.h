@@ -72,7 +72,7 @@ public:
      * @brief ~QtPolymorphicSharedData
      *        Destructor
      */
-    virtual ~QtPolymorphicSharedData() {}
+    virtual ~QtPolymorphicSharedData() = default;
     /**
      * @brief canCastTo Returns true if the data can be cast to the requested type ID.
      * @param metaTypeId - ID of requested type
@@ -106,12 +106,12 @@ protected:
 #define QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                \
 protected:                                                                              \
     typedef QtPolymorphicSharedDataHelper::TypeList<TYPE::TData, Types> Types;          \
-    int metaTypeId() const Q_DECL_OVERRIDE { return qMetaTypeId<TYPE>(); }              \
-    const char *metaTypeName() const Q_DECL_OVERRIDE { return QMetaType::typeName(qMetaTypeId<TYPE>()); }
+    int metaTypeId() const override { return qMetaTypeId<TYPE>(); }              \
+    const char *metaTypeName() const override { return QMetaType::typeName(qMetaTypeId<TYPE>()); }
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA(TYPE)                                              \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -120,7 +120,7 @@ protected:                                                                      
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                            \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -130,7 +130,7 @@ protected:                                                                      
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                       \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -141,7 +141,7 @@ protected:                                                                      
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)               \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -153,7 +153,7 @@ protected:                                                                      
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)       \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -166,7 +166,7 @@ protected:                                                                      
 
 #define QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5) \
     QT_POLYMORPHIC_COMMON_DATA(TYPE)                                                    \
-    bool canCastTo(int metaTypeId) const Q_DECL_OVERRIDE                                \
+    bool canCastTo(int metaTypeId) const override                                \
     {                                                                                   \
         typedef QtPolymorphicSharedDataHelper::TypeAt<Types, 1>::Result AncestorType;   \
         return qMetaTypeId<TYPE>() == metaTypeId ||                                     \
@@ -182,27 +182,27 @@ protected:                                                                      
  */
 #define QT_POLYMORPHIC_DATA(TYPE)       \
     QT_POLYMORPHIC_ABSTRACT_DATA(TYPE)  \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 #define QT_POLYMORPHIC_DATA_IFACE1(TYPE, INTERFACE)                                   \
     QT_POLYMORPHIC_ABSTRACT_DATA_IFACE1(TYPE, INTERFACE)                              \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 #define QT_POLYMORPHIC_DATA_IFACE2(TYPE, IFACE1, IFACE2)                              \
     QT_POLYMORPHIC_ABSTRACT_DATA_IFACE2(TYPE, IFACE1, IFACE2)                         \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 #define QT_POLYMORPHIC_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                      \
     QT_POLYMORPHIC_ABSTRACT_DATA_IFACE3(TYPE, IFACE1, IFACE2, IFACE3)                 \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 #define QT_POLYMORPHIC_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)              \
     QT_POLYMORPHIC_ABSTRACT_DATA_IFACE4(TYPE, IFACE1, IFACE2, IFACE3, IFACE4)         \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 #define QT_POLYMORPHIC_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)      \
     QT_POLYMORPHIC_ABSTRACT_DATA_IFACE5(TYPE, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5) \
-    QtPolymorphicSharedData *clone() const Q_DECL_OVERRIDE { return new TYPE::TData(*this); }
+    QtPolymorphicSharedData *clone() const override { return new TYPE::TData(*this); }
 
 /**
  *
@@ -232,7 +232,7 @@ public:
     /**
      * @brief ctor
      */
-    inline QtPolymorphicSharedType() {}
+    inline QtPolymorphicSharedType() = default;
     /**
      * @brief QtPolymorphicSharedType
      * @param other
@@ -242,7 +242,7 @@ public:
     /**
      * @brief dtor
      */
-    virtual ~QtPolymorphicSharedType() {}
+    virtual ~QtPolymorphicSharedType() = default;
     /**
      * @brief operator =
      * @param rhs
@@ -251,7 +251,6 @@ public:
     inline QtPolymorphicSharedType& operator=(const QtPolymorphicSharedType &rhs)
     { if (this != &rhs) d.operator=(rhs.d); return *this; }
 
-#ifdef Q_COMPILER_RVALUE_REFS
     /**
      * @brief QtPolymorphicSharedType
      * @param other
@@ -264,7 +263,7 @@ public:
      */
     inline QtPolymorphicSharedType & operator=(QtPolymorphicSharedType &&other)
     { d.swap(other.d); return *this; }
-#endif
+
     /**
      * @brief detach
      */
@@ -358,14 +357,10 @@ protected:
     T<QtPolymorphicSharedData> d;
 };
 
-#ifdef Q_COMPILER_RVALUE_REFS
-    #define QT_POLYMORPHIC_TYPE_RVALUE_REFS(TYPE)   \
-    inline TYPE(TYPE &&other) : AncestorType(std::move(other)) {}   \
-    inline TYPE &operator=(TYPE &&other)   \
-    { d.swap(other.d); return *this; }
-#else
-    #define QT_POLYMORPHIC_TYPE_RVALUE_REFS(TYPE)
-#endif
+#define QT_POLYMORPHIC_TYPE_RVALUE_REFS(TYPE)   \
+inline TYPE(TYPE &&other) : AncestorType(std::move(other)) {}   \
+inline TYPE &operator=(TYPE &&other)   \
+{ d.swap(other.d); return *this; }
 
 #define QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)  \
 protected:                               \

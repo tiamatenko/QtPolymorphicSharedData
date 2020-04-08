@@ -140,10 +140,10 @@ public:
     double thickness() const;
     void setThickness(double thickness);
 
-    double volume() const Q_DECL_OVERRIDE;
+    double volume() const override;
 
-    QVariant foo() const Q_DECL_OVERRIDE;
-    void setFoo(const QVariant &foo) Q_DECL_OVERRIDE;
+    QVariant foo() const override;
+    void setFoo(const QVariant &foo) override;
 };
 
 QT_DECLARE_POLYMORPHIC_SHARED(Shape)

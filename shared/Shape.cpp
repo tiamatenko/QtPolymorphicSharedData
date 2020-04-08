@@ -57,8 +57,8 @@ public:
     EllipseData(double _x, double _y, double _z, double _majorAxis, double _minorAxis)
         : ShapeData(_x, _y, _z), majorAxis(_majorAxis), minorAxis(_minorAxis) {}
 
-    virtual double area() const { return M_PI * majorAxis * minorAxis; }
-    virtual void printInfo() const
+    double area() const override { return M_PI * majorAxis * minorAxis; }
+    void printInfo() const override
     {
         ShapeData::printInfo();
         std::cout << "; majorAxis = " << majorAxis << ", minorAxis = " << minorAxis;
@@ -75,8 +75,8 @@ public:
     TriangleData(double _x, double _y, double _z, double _side1, double _side2, double _angle)
         : ShapeData(_x, _y, _z), side1(_side1), side2(_side2), angle(_angle) {}
 
-    virtual double area() const { return side1 * side2 * sin(angle) / 2; }
-    virtual void printInfo() const
+    double area() const override { return side1 * side2 * sin(angle) / 2; }
+    void printInfo() const override
     {
         ShapeData::printInfo();
         std::cout << "; side1 = " << side1 << ", side2 = " << side2 << ", angle = " << angle;
@@ -94,7 +94,7 @@ public:
     AbstractParallelogramData(double _x, double _y, double _z, double _side1, double _side2)
         : ShapeData(_x, _y, _z), side1(_side1), side2(_side2) {}
 
-    virtual void printInfo() const
+    void printInfo() const override
     {
         ShapeData::printInfo();
         std::cout << "; side1 = " << side1 << ", side2 = " << side2;
@@ -111,8 +111,8 @@ public:
     ParallelogramData(double _x, double _y, double _z, double _side1, double _side2, double _angle)
         : AbstractParallelogramData(_x, _y, _z, _side1, _side2), angle(_angle) {}
 
-    virtual double area() const { return side1 * side2 * sin(angle); }
-    virtual void printInfo() const
+    double area() const override { return side1 * side2 * sin(angle); }
+    void printInfo() const override
     {
         AbstractParallelogramData::printInfo();
         std::cout << "; angle = " << angle;
@@ -128,8 +128,8 @@ public:
     RectangleData(double _x, double _y, double _z, double _width, double _height)
         : AbstractParallelogramData(_x, _y, _z, _width, _height) {}
 
-    virtual double area() const { return side1 * side2; }
-    virtual void printInfo() const
+    double area() const override { return side1 * side2; }
+    void printInfo() const override
     {
         ShapeData::printInfo();
         std::cout << "; width = " << side1 << ", height = " << side2;
@@ -144,8 +144,8 @@ public:
     ParallelepipedData(double _x, double _y, double _z, double _width, double _height, double _thickness)
         : RectangleData(_x, _y, _z, _width, _height), thickness(_thickness) {}
 
-    virtual double area() const { return 2 * (RectangleData::area() + (side1 + side2) * thickness); }
-    virtual void printInfo() const
+    double area() const override { return 2 * (RectangleData::area() + (side1 + side2) * thickness); }
+    void printInfo() const override
     {
         RectangleData::printInfo();
         std::cout << "; thickness = " << thickness;
