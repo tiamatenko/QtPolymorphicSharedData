@@ -35,26 +35,26 @@ class Shape : public QtBasePolymorphicSharedType
 {
     QT_POLYMORPHIC_TYPE(Shape, ShapeData)
 public:
-    double x() const;
-    void setX(double x);
+    double x() const noexcept;
+    void setX(double x) noexcept;
 
-    double y() const;
-    void setY(double y);
+    double y() const noexcept;
+    void setY(double y) noexcept;
 
-    double z() const;
-    void setZ(double z);
+    double z() const noexcept;
+    void setZ(double z) noexcept;
 
-    double area() const;
+    double area() const noexcept;
 
-    void printInfo() const;
+    void printInfo() const noexcept;
 
-    bool operator==(const Shape &shape) const;
-    bool operator!=(const Shape &shape) const;
-    bool operator<(const Shape &shape) const;
-    bool operator<=(const Shape &shape) const;
-    bool operator>(const Shape &shape) const;
-    bool operator>=(const Shape &shape) const;
-    inline operator QVariant() const
+    bool operator==(const Shape &shape) const noexcept;
+    bool operator!=(const Shape &shape) const noexcept;
+    bool operator<(const Shape &shape) const noexcept;
+    bool operator<=(const Shape &shape) const noexcept;
+    bool operator>(const Shape &shape) const noexcept;
+    bool operator>=(const Shape &shape) const noexcept;
+    inline operator QVariant() const noexcept
     { return QVariant::fromValue(*this); }
 };
 
@@ -62,88 +62,88 @@ class Ellipse : public Shape
 {
     QT_POLYMORPHIC_TYPE(Ellipse, EllipseData)
 public:
-    Ellipse(double x, double y, double z, double majorAxis, double minorAxis);
+    Ellipse(double x, double y, double z, double majorAxis, double minorAxis) noexcept;
 
-    double majorAxis() const;
-    void setMajorAxis(double majorAxis);
+    double majorAxis() const noexcept;
+    void setMajorAxis(double majorAxis) noexcept;
 
-    double minorAxis() const;
-    void setMinorAxis(double minorAxis);
+    double minorAxis() const noexcept;
+    void setMinorAxis(double minorAxis) noexcept;
 };
 
 class Triangle : public Shape
 {
     QT_POLYMORPHIC_TYPE(Triangle, TriangleData)
 public:
-    Triangle(double x, double y, double z, double side1, double side2, double angle);
+    Triangle(double x, double y, double z, double side1, double side2, double angle) noexcept;
 
-    double side1() const;
-    void setSide1(double side1);
+    double side1() const noexcept;
+    void setSide1(double side1) noexcept;
 
-    double side2() const;
-    void setSide2(double side2);
+    double side2() const noexcept;
+    void setSide2(double side2) noexcept;
 
-    double angle() const;
-    void setAngle(double angle);
+    double angle() const noexcept;
+    void setAngle(double angle) noexcept;
 };
 
 class AbstractParallelogram : public Shape
 {
     QT_POLYMORPHIC_TYPE(AbstractParallelogram, AbstractParallelogramData)
 public:
-    AbstractParallelogram(double x, double y, double z, double side1, double side2);
+    AbstractParallelogram(double x, double y, double z, double side1, double side2) noexcept;
 
-    double side1() const;
-    void setSide1(double side1);
+    double side1() const noexcept;
+    void setSide1(double side1) noexcept;
 
-    double side2() const;
-    void setSide2(double side2);
+    double side2() const noexcept;
+    void setSide2(double side2) noexcept;
 };
 
 class Rectangle : public AbstractParallelogram
 {
     QT_POLYMORPHIC_TYPE(Rectangle, RectangleData)
 public:
-    Rectangle(double x, double y, double z, double width, double height);
+    Rectangle(double x, double y, double z, double width, double height) noexcept;
 
-    inline double width() const { return side1(); }
-    inline void setWidth(double width) { setSide1(width); }
+    inline double width() const noexcept { return side1(); }
+    inline void setWidth(double width) noexcept { setSide1(width); }
 
-    inline double height() const { return side2(); }
-    inline void setHeight(double height) { setSide2(height); }
+    inline double height() const noexcept { return side2(); }
+    inline void setHeight(double height) noexcept { setSide2(height); }
 };
 
 class Parallelogram : public AbstractParallelogram
 {
     QT_POLYMORPHIC_TYPE(Parallelogram, ParallelogramData)
 public:
-    Parallelogram(double x, double y, double z, double side1, double side2, double angle);
+    Parallelogram(double x, double y, double z, double side1, double side2, double angle) noexcept;
 
-    double angle() const;
-    void setAngle(double angle);
+    double angle() const noexcept;
+    void setAngle(double angle) noexcept;
 };
 
 class AxonometricObject
 {
 public:
-    virtual double volume() const = 0;
-    virtual QVariant foo() const = 0;
-    virtual void setFoo(const QVariant &foo) = 0;
+    virtual double volume() const noexcept = 0;
+    virtual QVariant foo() const noexcept = 0;
+    virtual void setFoo(const QVariant &foo) noexcept = 0;
 };
 
 class Parallelepiped : public Rectangle, public AxonometricObject
 {
     QT_POLYMORPHIC_TYPE_IFACE1(Parallelepiped, ParallelepipedData, AxonometricObject)
 public:
-    Parallelepiped(double x, double y, double z, double width, double height, double thickness);
+    Parallelepiped(double x, double y, double z, double width, double height, double thickness) noexcept;
 
-    double thickness() const;
-    void setThickness(double thickness);
+    double thickness() const noexcept;
+    void setThickness(double thickness) noexcept;
 
-    double volume() const override;
+    double volume() const noexcept override;
 
-    QVariant foo() const override;
-    void setFoo(const QVariant &foo) override;
+    QVariant foo() const noexcept override;
+    void setFoo(const QVariant &foo) noexcept override;
 };
 
 QT_DECLARE_POLYMORPHIC_SHARED(Shape)

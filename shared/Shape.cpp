@@ -34,13 +34,13 @@ class ShapeData : public QtPolymorphicSharedData
 {
     QT_POLYMORPHIC_ABSTRACT_DATA(Shape)
 public:
-    ShapeData(double _x, double _y, double _z) : x(_x), y(_y), z(_z)
+    ShapeData(double _x, double _y, double _z) noexcept : x(_x), y(_y), z(_z)
     {
     }
 
-    virtual double area() const = 0;
+    virtual double area() const noexcept = 0;
 
-    virtual void printInfo() const
+    virtual void printInfo() const noexcept
     {
         std::cout << "Type name: " << metaTypeName() << "; x = " << x << ", y = " << y << ", z = " << z;
     }
@@ -54,11 +54,11 @@ class EllipseData : public ShapeData
 {
     QT_POLYMORPHIC_DATA(Ellipse)
 public:
-    EllipseData(double _x, double _y, double _z, double _majorAxis, double _minorAxis)
+    EllipseData(double _x, double _y, double _z, double _majorAxis, double _minorAxis) noexcept
         : ShapeData(_x, _y, _z), majorAxis(_majorAxis), minorAxis(_minorAxis) {}
 
-    double area() const override { return M_PI * majorAxis * minorAxis; }
-    void printInfo() const override
+    double area() const noexcept override { return M_PI * majorAxis * minorAxis; }
+    void printInfo() const noexcept override
     {
         ShapeData::printInfo();
         std::cout << "; majorAxis = " << majorAxis << ", minorAxis = " << minorAxis;
@@ -72,11 +72,11 @@ class TriangleData : public ShapeData
 {
     QT_POLYMORPHIC_DATA(Triangle)
 public:
-    TriangleData(double _x, double _y, double _z, double _side1, double _side2, double _angle)
+    TriangleData(double _x, double _y, double _z, double _side1, double _side2, double _angle) noexcept
         : ShapeData(_x, _y, _z), side1(_side1), side2(_side2), angle(_angle) {}
 
-    double area() const override { return side1 * side2 * sin(angle) / 2; }
-    void printInfo() const override
+    double area() const noexcept override { return side1 * side2 * sin(angle) / 2; }
+    void printInfo() const noexcept override
     {
         ShapeData::printInfo();
         std::cout << "; side1 = " << side1 << ", side2 = " << side2 << ", angle = " << angle;
@@ -91,10 +91,10 @@ class AbstractParallelogramData : public ShapeData
 {
     QT_POLYMORPHIC_ABSTRACT_DATA(AbstractParallelogram)
 public:
-    AbstractParallelogramData(double _x, double _y, double _z, double _side1, double _side2)
+    AbstractParallelogramData(double _x, double _y, double _z, double _side1, double _side2) noexcept
         : ShapeData(_x, _y, _z), side1(_side1), side2(_side2) {}
 
-    void printInfo() const override
+    void printInfo() const noexcept override
     {
         ShapeData::printInfo();
         std::cout << "; side1 = " << side1 << ", side2 = " << side2;
@@ -108,11 +108,11 @@ class ParallelogramData : public AbstractParallelogramData
 {
     QT_POLYMORPHIC_DATA(Parallelogram)
 public:
-    ParallelogramData(double _x, double _y, double _z, double _side1, double _side2, double _angle)
+    ParallelogramData(double _x, double _y, double _z, double _side1, double _side2, double _angle) noexcept
         : AbstractParallelogramData(_x, _y, _z, _side1, _side2), angle(_angle) {}
 
-    double area() const override { return side1 * side2 * sin(angle); }
-    void printInfo() const override
+    double area() const noexcept override { return side1 * side2 * sin(angle); }
+    void printInfo() const noexcept override
     {
         AbstractParallelogramData::printInfo();
         std::cout << "; angle = " << angle;
@@ -125,11 +125,11 @@ class RectangleData : public AbstractParallelogramData
 {
     QT_POLYMORPHIC_DATA(Rectangle)
 public:
-    RectangleData(double _x, double _y, double _z, double _width, double _height)
+    RectangleData(double _x, double _y, double _z, double _width, double _height) noexcept
         : AbstractParallelogramData(_x, _y, _z, _width, _height) {}
 
-    double area() const override { return side1 * side2; }
-    void printInfo() const override
+    double area() const noexcept override { return side1 * side2; }
+    void printInfo() const noexcept override
     {
         ShapeData::printInfo();
         std::cout << "; width = " << side1 << ", height = " << side2;
@@ -141,16 +141,16 @@ class ParallelepipedData : public RectangleData
 {
     QT_POLYMORPHIC_DATA_IFACE1(Parallelepiped, AxonometricObject)
 public:
-    ParallelepipedData(double _x, double _y, double _z, double _width, double _height, double _thickness)
+    ParallelepipedData(double _x, double _y, double _z, double _width, double _height, double _thickness) noexcept
         : RectangleData(_x, _y, _z, _width, _height), thickness(_thickness) {}
 
-    double area() const override { return 2 * (RectangleData::area() + (side1 + side2) * thickness); }
-    void printInfo() const override
+    double area() const noexcept override { return 2 * (RectangleData::area() + (side1 + side2) * thickness); }
+    void printInfo() const noexcept override
     {
         RectangleData::printInfo();
         std::cout << "; thickness = " << thickness;
     }
-    virtual double volume() const { return side1 * side2 * thickness; }
+    virtual double volume() const noexcept { return side1 * side2 * thickness; }
 
     double thickness;
     QVariant foo;
@@ -161,56 +161,56 @@ public:
 
 ////// Shape //////
 
-double Shape::x() const
+double Shape::x() const noexcept
 {
     QT_GET_D
     return d->x;
 }
 
-void Shape::setX(double x)
+void Shape::setX(double x) noexcept
 {
     QT_SET_D
     d->x = x;
 }
 
-double Shape::y() const
+double Shape::y() const noexcept
 {
     QT_GET_D
     return d->y;
 }
 
-void Shape::setY(double y)
+void Shape::setY(double y) noexcept
 {
     QT_SET_D
     d->y = y;
 }
 
-double Shape::z() const
+double Shape::z() const noexcept
 {
     QT_GET_D
     return d->z;
 }
 
-void Shape::setZ(double z)
+void Shape::setZ(double z) noexcept
 {
     QT_SET_D
     d->z = z;
 }
 
-double Shape::area() const
+double Shape::area() const noexcept
 {
     QT_GET_D
     return d->area();
 }
 
-void Shape::printInfo() const
+void Shape::printInfo() const noexcept
 {
     QT_GET_D
     d->printInfo();
     std::cout << std::endl;
 }
 
-bool Shape::operator==(const Shape &shape) const
+bool Shape::operator==(const Shape &shape) const noexcept
 {
     if (d == shape.d)
         return true;
@@ -219,12 +219,12 @@ bool Shape::operator==(const Shape &shape) const
     return qFuzzyCompare(area(), shape.area());
 }
 
-bool Shape::operator!=(const Shape &shape) const
+bool Shape::operator!=(const Shape &shape) const noexcept
 {
     return !(*this == shape);
 }
 
-bool Shape::operator<(const Shape &shape) const
+bool Shape::operator<(const Shape &shape) const noexcept
 {
     if (shape.isNull())
         return false;
@@ -233,12 +233,12 @@ bool Shape::operator<(const Shape &shape) const
     return area() < shape.area();
 }
 
-bool Shape::operator<=(const Shape &shape) const
+bool Shape::operator<=(const Shape &shape) const noexcept
 {
     return *this == shape || *this < shape;
 }
 
-bool Shape::operator>(const Shape &shape) const
+bool Shape::operator>(const Shape &shape) const noexcept
 {
     if (shape.isNull())
         return true;
@@ -247,37 +247,37 @@ bool Shape::operator>(const Shape &shape) const
     return area() > shape.area();
 }
 
-bool Shape::operator>=(const Shape &shape) const
+bool Shape::operator>=(const Shape &shape) const noexcept
 {
     return !(*this < shape);
 }
 
 ////// Ellipse //////
 
-Ellipse::Ellipse(double x, double y, double z, double majorAxis, double minorAxis)
+Ellipse::Ellipse(double x, double y, double z, double majorAxis, double minorAxis) noexcept
     : Shape(new EllipseData(x, y, z, majorAxis, minorAxis))
 {
 }
 
-double Ellipse::majorAxis() const
+double Ellipse::majorAxis() const noexcept
 {
     QT_GET_D
     return d->majorAxis;
 }
 
-void Ellipse::setMajorAxis(double majorAxis)
+void Ellipse::setMajorAxis(double majorAxis) noexcept
 {
     QT_SET_D
     d->majorAxis = majorAxis;
 }
 
-double Ellipse::minorAxis() const
+double Ellipse::minorAxis() const noexcept
 {
     QT_GET_D
     return d->majorAxis;
 }
 
-void Ellipse::setMinorAxis(double minorAxis)
+void Ellipse::setMinorAxis(double minorAxis) noexcept
 {
     QT_SET_D
     d->minorAxis = minorAxis;
@@ -285,42 +285,42 @@ void Ellipse::setMinorAxis(double minorAxis)
 
 ////// Triangle //////
 
-Triangle::Triangle(double x, double y, double z, double side1, double side2, double angle)
+Triangle::Triangle(double x, double y, double z, double side1, double side2, double angle) noexcept
     : Shape(new TriangleData(x, y, z, side1, side2, angle))
 {
 }
 
-double Triangle::side1() const
+double Triangle::side1() const noexcept
 {
     QT_GET_D
     return d->side1;
 }
 
-void Triangle::setSide1(double side1)
+void Triangle::setSide1(double side1) noexcept
 {
     QT_SET_D
     d->side1 = side1;
 }
 
-double Triangle::side2() const
+double Triangle::side2() const noexcept
 {
     QT_GET_D
     return d->side2;
 }
 
-void Triangle::setSide2(double side2)
+void Triangle::setSide2(double side2) noexcept
 {
     QT_SET_D
     d->side2 = side2;
 }
 
-double Triangle::angle() const
+double Triangle::angle() const noexcept
 {
     QT_GET_D
     return d->angle;
 }
 
-void Triangle::setAngle(double angle)
+void Triangle::setAngle(double angle) noexcept
 {
     QT_SET_D
     d->angle = angle;
@@ -328,25 +328,25 @@ void Triangle::setAngle(double angle)
 
 ////// AbstractParallelogram //////
 
-double AbstractParallelogram::side1() const
+double AbstractParallelogram::side1() const noexcept
 {
     QT_GET_D
     return d->side1;
 }
 
-void AbstractParallelogram::setSide1(double side1)
+void AbstractParallelogram::setSide1(double side1) noexcept
 {
     QT_SET_D
     d->side1 = side1;
 }
 
-double AbstractParallelogram::side2() const
+double AbstractParallelogram::side2() const noexcept
 {
     QT_GET_D
     return d->side2;
 }
 
-void AbstractParallelogram::setSide2(double side2)
+void AbstractParallelogram::setSide2(double side2) noexcept
 {
     QT_SET_D
     d->side2 = side2;
@@ -354,25 +354,25 @@ void AbstractParallelogram::setSide2(double side2)
 
 ////// Rectangle //////
 
-Rectangle::Rectangle(double x, double y, double z, double width, double height)
+Rectangle::Rectangle(double x, double y, double z, double width, double height) noexcept
     : AbstractParallelogram(new RectangleData(x, y, z, width, height))
 {
 }
 
 ////// Parallelogram //////
 
-Parallelogram::Parallelogram(double x, double y, double z, double width, double height, double angle)
+Parallelogram::Parallelogram(double x, double y, double z, double width, double height, double angle) noexcept
     : AbstractParallelogram(new ParallelogramData(x, y, z, width, height, angle))
 {
 }
 
-double Parallelogram::angle() const
+double Parallelogram::angle() const noexcept
 {
     QT_GET_D
     return d->angle;
 }
 
-void Parallelogram::setAngle(double angle)
+void Parallelogram::setAngle(double angle) noexcept
 {
     QT_SET_D
     d->angle = angle;
@@ -380,36 +380,36 @@ void Parallelogram::setAngle(double angle)
 
 ////// Parallelepiped //////
 
-Parallelepiped::Parallelepiped(double x, double y, double z, double width, double height, double thickness)
+Parallelepiped::Parallelepiped(double x, double y, double z, double width, double height, double thickness) noexcept
     : Rectangle(new ParallelepipedData(x, y, z, width, height, thickness))
 {
 }
 
-double Parallelepiped::thickness() const
+double Parallelepiped::thickness() const noexcept
 {
     QT_GET_D
     return d->thickness;
 }
 
-void Parallelepiped::setThickness(double thickness)
+void Parallelepiped::setThickness(double thickness) noexcept
 {
     QT_SET_D
     d->thickness = qAbs(thickness);
 }
 
-double Parallelepiped::volume() const
+double Parallelepiped::volume() const noexcept
 {
     QT_GET_D
     return d->volume();
 }
 
-QVariant Parallelepiped::foo() const
+QVariant Parallelepiped::foo() const noexcept
 {
     QT_GET_D
     return d->foo;
 }
 
-void Parallelepiped::setFoo(const QVariant &foo)
+void Parallelepiped::setFoo(const QVariant &foo) noexcept
 {
     QT_SET_D
     d->foo = foo;
