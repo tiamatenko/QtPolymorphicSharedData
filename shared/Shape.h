@@ -133,7 +133,7 @@ public:
 
 class Parallelepiped : public Rectangle, public AxonometricObject
 {
-    QT_POLYMORPHIC_TYPE_IFACE1(Parallelepiped, ParallelepipedData, AxonometricObject)
+    QT_POLYMORPHIC_TYPE(Parallelepiped, ParallelepipedData)
 public:
     Parallelepiped(double x, double y, double z, double width, double height, double thickness) noexcept;
 

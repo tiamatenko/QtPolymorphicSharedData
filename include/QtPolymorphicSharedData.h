@@ -238,7 +238,7 @@ public:
      * @brief QtPolymorphicSharedType
      * @param other
      */
-    inline QtPolymorphicSharedType(const QtPolymorphicSharedType &other) noexcept : d(other.d) {}
+    inline QtPolymorphicSharedType(const QtPolymorphicSharedType &other) = default;
 
     /**
      * @brief dtor
@@ -249,14 +249,13 @@ public:
      * @param rhs
      * @return
      */
-    inline QtPolymorphicSharedType & operator=(const QtPolymorphicSharedType &rhs) noexcept
-    { if (this != &rhs) d.operator=(rhs.d); return *this; }
+    inline QtPolymorphicSharedType & operator=(const QtPolymorphicSharedType &rhs) = default;
 
     /**
      * @brief QtPolymorphicSharedType
      * @param other
      */
-    inline QtPolymorphicSharedType(QtPolymorphicSharedType &&other) noexcept : d(std::move(other.d)) {}
+    inline QtPolymorphicSharedType(QtPolymorphicSharedType &&other) = default;
     /**
      * @brief operator =
      * @param other
@@ -358,7 +357,7 @@ protected:
     T<QtPolymorphicSharedData> d;
 };
 
-#define QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)  \
+#define QT_POLYMORPHIC_TYPE(TYPE, DATA)  \
 protected:                               \
     friend class DATA;                   \
     typedef class DATA TData;            \
@@ -367,52 +366,11 @@ protected:                               \
     inline TYPE(QtPolymorphicSharedData *data) noexcept : AncestorType(data) {}     \
 public:                         \
     inline TYPE() = default;    \
-    inline TYPE& operator=(const TYPE &rhs) noexcept                        \
-    { if (this != &rhs) d.operator=(rhs.d); return *this; }                 \
-    inline TYPE(TYPE &&other) noexcept : AncestorType(std::move(other)) {}  \
-    inline TYPE &operator=(TYPE &&other) noexcept                           \
+    inline TYPE(const TYPE &other) = default;           \
+    inline TYPE& operator=(const TYPE &rhs) = default;  \
+    inline TYPE(TYPE &&other) = default;                \
+    inline TYPE &operator=(TYPE &&other) noexcept       \
     { d.swap(other.d); return *this; }
-
-/**
-*/
-#define QT_POLYMORPHIC_TYPE(TYPE, DATA)     \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)  \
-    inline TYPE(const TYPE &other) noexcept : AncestorType(other) {}
-
-/*
-*/
-#define QT_POLYMORPHIC_TYPE_IFACE1(TYPE, DATA, INTERFACE)   \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)                  \
-    inline TYPE(const TYPE &other) noexcept                 \
-    : AncestorType(other), INTERFACE(other) {}
-
-/*
-*/
-#define QT_POLYMORPHIC_TYPE_IFACE2(TYPE, DATA, IFACE1, IFACE2)  \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)                      \
-    inline TYPE(const TYPE &other) noexcept                     \
-    : AncestorType(other), IFACE1(other), IFACE2(other) {}
-
-/*
-*/
-#define QT_POLYMORPHIC_TYPE_IFACE3(TYPE, DATA, IFACE1, IFACE2, IFACE3)  \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)                              \
-    inline TYPE(const TYPE &other) noexcept                             \
-    : AncestorType(other), IFACE1(other), IFACE2(other), IFACE3(other) {}
-
-/*
-*/
-#define QT_POLYMORPHIC_TYPE_IFACE4(TYPE, DATA, IFACE1, IFACE2, IFACE3, IFACE4)  \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)                                      \
-    inline TYPE(const TYPE &other) noexcept                                     \
-    : AncestorType(other), IFACE1(other), IFACE2(other), IFACE3(other), IFACE4(other) {}
-
-/*
-*/
-#define QT_POLYMORPHIC_TYPE_IFACE5(TYPE, DATA, IFACE1, IFACE2, IFACE3, IFACE4, IFACE5)  \
-    QT_POLYMORPHIC_TYPE_COMMON(TYPE, DATA)                                              \
-    inline TYPE(const TYPE &other) noexcept                                             \
-    : AncestorType(other), IFACE1(other), IFACE2(other), IFACE3(other), IFACE4(other), IFACE5(other) {}
 
 /**
  */
