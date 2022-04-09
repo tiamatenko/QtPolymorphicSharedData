@@ -139,11 +139,11 @@ int main(int argc, char *argv[])
     shapes << pr1 << pr2 << pr3 << pr4 << pr5;
     shapes << prl1 << prl2 << prl3 << prl4 << prl5;
 
-    qSort(shapes);
+    std::sort(shapes.begin(), shapes.end());
 
     qInfo() << "Shape size is:" << sizeof(Shape) << sizeof(QVariant) << sizeof(QSharedPointer<Shape>) << sizeof(Shape*);
-    qInfo() << "QTypeInfo<Shape>::isLarge:" << (QTypeInfo<Shape>::isLarge);
-    qInfo() << "QTypeInfo<QVariant>::isLarge:" << (QTypeInfo<QVariant>::isLarge);
+    qInfo() << "QTypeInfo<Shape>::isRelocatable:" << (QTypeInfo<Shape>::isRelocatable);
+    qInfo() << "QTypeInfo<QVariant>::isRelocatable:" << (QTypeInfo<QVariant>::isRelocatable);
 
     foreach (const Shape &shape, shapes) {
         if (shape.canCastTo<Ellipse>())
